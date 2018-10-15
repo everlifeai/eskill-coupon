@@ -1,0 +1,13 @@
+{
+  "name": "elife-coupon",
+  "version": "0.1.0",
+  "description": "Redeem coupons to fund your avatar",
+  "main": "index.js",
+  "author": "charles.lobo@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "cote": "^0.18.0",
+    "elife-utils": "everlifeai/elife-utils",
+    "request": "^2.88.0"
+  }
+}
