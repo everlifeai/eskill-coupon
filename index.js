@@ -40,16 +40,16 @@ function registerWithCommMgr() {
     })
 }
 
+const stellarClient = new cote.Requester({
+    name: 'elife-coupon -> Stellar',
+    key: 'everlife-stellar-svc',
+})
+
 /*      outcome/
  * Load the wallet account from the stellar microservice
  */
 let account
 function getWalletAccount() {
-    const stellarClient = new cote.Requester({
-        name: 'elife-coupon -> Stellar',
-        key: 'everlife-stellar-svc',
-    })
-
     stellarClient.send({
         type: 'account-id',
     }, (err, acc_) => {
@@ -88,11 +88,22 @@ function startMicroservice() {
             request(options, function(err, response, body){
                 if(err) {
                     u.showErr(err)
-                    sendReply(`error : ${error}`, req)
+                    sendReply(`Error connecting to marketplace!`, req)
                 } else if(response && response.statusCode != 200) {
-                    sendReply(`error : ${response}`, req)
+                    sendReply(`Coupon Error!`, req)
                 } else {
                     sendReply(`Account "${account}" activated!`, req)
+                    sendReply(`Setting up EVER trustline...`, req)
+                    stellarClient.send({
+                        type: 'setup-ever-trustline',
+                    }, (err, acc_) => {
+                        if(err) {
+                            u.showErr(err)
+                            sendReply(`Error setting up trustline!`, req)
+                        } else {
+                            sendReply(`Account activated and EVER trustline set! You can now accept payment on "${account}"`, req)
+                        }
+                    })
                 }
             });
         } else cb()
