@@ -72,7 +72,7 @@ function startMicroservice() {
     svc.on('msg', (req, cb) => {
         if(!req.msg) return cb()
 
-        let rx = /^\/coupon *(.*)/
+        let rx = /^use coupon *(.*)/
         let m = req.msg.match(rx)
         if(m) {
             cb(null, true)
