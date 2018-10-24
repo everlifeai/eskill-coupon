@@ -35,6 +35,7 @@ function registerWithCommMgr() {
         type: 'register-msg-handler',
         mskey: msKey,
         mstype: 'msg',
+        mshelp: [ { cmd: '/use_coupon', txt: 'activate wallet using coupon' } ],
     }, (err) => {
         if(err) u.showErr(err)
     })
@@ -72,7 +73,7 @@ function startMicroservice() {
     svc.on('msg', (req, cb) => {
         if(!req.msg) return cb()
 
-        let rx = /^use coupon *(.*)/
+        let rx = /^\/use_coupon *(.*)/
         let m = req.msg.match(rx)
         if(m) {
             cb(null, true)
