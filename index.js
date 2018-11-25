@@ -80,11 +80,11 @@ function startMicroservice() {
             sendReply(`Redeeming coupon...`, req)
             let coupon = m[1]
 
-            let uri = `http://${process.env.SSB_HOST}:3000/coupons/${coupon}/${account}`
+            let uri = `http://${process.env.SSB_HOST}:3000/coupons/redeem-start/${coupon}/${account}`
 
             const options ={
                 "uri":      uri,
-                "method":   "DELETE",
+                "method":   "POST",
             }
             request(options, function(err, response, body){
                 if(err) {
