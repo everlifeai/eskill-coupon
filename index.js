@@ -81,7 +81,7 @@ function startMicroservice() {
             let coupon = m[1]
 
             let uri = `http://${process.env.SSB_HOST}:3000/coupons/redeem-start/${coupon}/${account}`
-
+            
             const options ={
                 "uri":      uri,
                 "method":   "POST",
@@ -103,6 +103,7 @@ function startMicroservice() {
                             sendReply(`Error setting up trustline!`, req)
                         } else {
                             sendReply(`Account activated and EVER trustline set! You can now accept payment on "${account}"`, req)
+                            redeemEnd(coupon)
                         }
                     })
                 }
@@ -111,4 +112,21 @@ function startMicroservice() {
     })
 }
 
+function redeemEnd(coupon){
+    let uri = `http://${process.env.SSB_HOST}:3000/coupons/redeem-end/${coupon}/${account}`
+    const options ={
+        "uri":      uri,
+        "method":   "POST",
+    }
+    request(options, function(err, response, body){
+        if(err) {
+            u.showErr(err)
+            sendReply(`Error connecting to marketplace!`, req)
+        } else if(response && response.statusCode != 200) {
+            sendReply(`Coupon Error!`, req)
+        } else {
+           sendReply(`Redeemed coupon ${coupon}`)
+        }
+    });
+}
 main()
