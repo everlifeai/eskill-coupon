@@ -1,7 +1,7 @@
 'use strict'
 const cote = require('cote')({statusLogsEnabled:false})
 const request = require('request')
-const u = require('elife-utils')
+const u = require('@elife/utils')
 
 /*      understand/
  * This is the main entry point where we start.
